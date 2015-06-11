@@ -53,9 +53,9 @@ public class SVueAAG_main {
 		int classes = gradeTBL.size() - 1;
 		// gradeTBL.get(1).getAllElements().last().text()
 		
-		for (int i = 1; i < classes; i++) { //  (each class)
+		for (int i = 1; i < classes; i++) { //  (each class I think? this may be where the bug is)
 			Elements tbl = gradeTBL.get(i).getAllElements(); // find what's inside it
-			Elements tbl2 = tbl.get(i).select("td"); // each param
+			Elements tbl2 = tbl.get(i).select("td"); // each param (I think? this may be where the bug is)
 				for (int j = 0; j < tbl2.size(); j++) { // for each thing that's inside the class
 					System.out.print(tbl2.get(j).text() + "||"); // print it out?
 				}
