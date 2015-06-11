@@ -4,11 +4,13 @@ import java.util.Scanner;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 
 public class SVueAAG_main {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		Scanner scan = new Scanner(System.in);
 		String user = ""; // FOR DEBUGGING ONLY
 		String pass = ""; // FOR DEBUGGING ONLY
@@ -35,11 +37,15 @@ public class SVueAAG_main {
 		name = name.substring(1, name.length());
 		System.out.println(name);
 		System.out.println(loginForm.cookies());
-		
-		Document grades = Jsoup.connect("https://parentvue.beaverton.k12.or.us/PXP_Gradebook.aspx")
+		Document grades = Jsoup.connect("https://parentvue.beaverton.k12.or.us/PXP_Gradebook.aspx?AGU=0")
+				.timeout(10*1000)
 				.cookies(loginForm.cookies())
 				.post();
-		System.out.println(grades);
+		//System.out.println(grades);
+		
+		Element table = grades.select("table[class=info_tbl]").first();
+		table = table.select("tbody").get(0);
+		System.out.println(table.select("tr").size() - 1);
 		
 	}
 
