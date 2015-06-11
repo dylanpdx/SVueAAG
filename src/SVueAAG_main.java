@@ -58,7 +58,9 @@ public class SVueAAG_main {
 			for (int k = 0; k < tbl.size(); k++) { //
 				Elements tbl2 = tbl.get(k).select("td");
 				for (int j = 0; j < tbl2.size(); j++) { //
-					System.out.print(tbl2.get(j).text() + "||");
+					if (tbl2.size() == 6){
+					System.out.println(tbl2.get(j).text());
+					}else{System.out.println("size not six");}
 				}
 			}
 
