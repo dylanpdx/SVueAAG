@@ -23,13 +23,16 @@ public class SVueAAG_main {
 			pass = scan.next(); // FOR DEBUGGING ONLY!!!
 
 			loginForm = Jsoup.connect("https://parentvue.beaverton.k12.or.us/Login_Student_PXP.aspx").method(Connection.Method.GET).execute(); // Get
-																																				// cookies
-
-			document = Jsoup.connect("https://parentvue.beaverton.k12.or.us/Login_Student_PXP.aspx").data("username", user) // FOR DEBUGGING ONLY
+			Document loginFormParsed = loginForm.parse();
+			String viewState=loginFormParsed.select("#__VIEWSTATE").attr("value");
+			String eventValidate=loginFormParsed.select("#__EVENTVALIDATION").attr("value");
+			String viewStateGen=loginFormParsed.select("#__VIEWSTATEGENERATOR").attr("value");
+			document = Jsoup.connect("https://parentvue.beaverton.k12.or.us/Login_Student_PXP.aspx")
+					.data("username", user) // FOR DEBUGGING ONLY
 					.data("password", pass) // FOR DEBUGGING ONLY!!!
-					.data("__VIEWSTATE", "/wEPDwUKMTk4OTU4MDc2NWRkpO1Yx46hRy/mkPaHIpJ41xe4NWOOH0l6Fqt2KzXrH58=")
-					.data("__VIEWSTATEGENERATOR", "C520BE40")
-					.data("__EVENTVALIDATION", "/wEdAASxlVz5jDGwq0WlapthbhhRKhoCyVdJtLIis5AgYZ/RYe4sciJO3Hoc68xTFtZGQEgSYOQVAPr9tiF9q7nSHjzop2Rg4jlbiMUFEEk7o+ulgkFZg4aqMI964lA977RcK24=")
+					.data("__VIEWSTATE", viewState) // __VIEWSTATEGENERATOR
+					.data("__VIEWSTATEGENERATOR", viewStateGen)
+					.data("__EVENTVALIDATION", eventValidate)
 					.cookies(loginForm.cookies())
 					.post();
 			// System.out.println(document);
@@ -66,9 +69,12 @@ public class SVueAAG_main {
 			for (int k = 0; k < tbl.size(); k++) { //
 				Elements tbl2 = tbl.get(k).select("td");
 				for (int j = 0; j < tbl2.size(); j++) { //
-					if (tbl2.size() == 6) { // Apparently some forms don't have
-											// 6
-						System.out.println(tbl2.get(j).text());
+					if (tbl2.size() == 6) { // Apparently some forms don't have 6
+						String txt = tbl2.get(j).text();
+						if (!txt.equals(" ")){
+							System.out.println(txt);
+						}
+						
 					}
 				}
 			}
